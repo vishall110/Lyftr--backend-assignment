@@ -83,11 +83,11 @@ def startup():
 # ---------------- MODELS ----------------
 
 class WebhookMessage(BaseModel):
-    message_id: str = Field(..., min_length=1)
-    from_: str = Field(..., alias="from")
-    to: str
+    message_id: str = Field(min_length=1)
+    from_: str = Field(alias="from", pattern=r"^\+\d+$")
+    to: str = Field(pattern=r"^\+\d+$")
     ts: str
-    text: Optional[str] = Field(None, max_length=4096)
+    text: Optional[str] = Field(default=None, max_length=4096)
 
     @validator("from_", "to")
     def validate_e164(cls, v):
